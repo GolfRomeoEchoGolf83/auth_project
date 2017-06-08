@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   def index
-    if !@current_user || @current_user.role != "admin"
-      return head :forbidden
+    if @current_user.try(:role) != "admin"
+      flash[:error] = "Access forbidden !"
+      return redirect_to request.referrer || root_path
     end
-    
   end
   
   def home
