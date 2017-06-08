@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
+  before_action :set_current_user
+  
   def home
-    set_current_user
   end
 
   def login
