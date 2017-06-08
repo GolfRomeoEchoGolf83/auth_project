@@ -1,7 +1,11 @@
 class UsersController < ApplicationController
-   protect_from_forgery with: :exception
-  before_action :set_current_user
-
+  def index
+    if !@current_user || @current_user.role != "admin"
+      return head :forbidden
+    end
+    
+  end
+  
   def home
   end
 
@@ -10,7 +14,7 @@ class UsersController < ApplicationController
 
   def check
     @current_user = User.where(name: params[:name], password: params[:password]).first
-    if @current_user
+    if @current_user 
       session[:user_id] = @current_user.id
       flash[:info] = "Welcome #{@current_user.name} !"
       redirect_to "/users/home"
@@ -19,13 +23,6 @@ class UsersController < ApplicationController
       flash[:info] = "Sadly, we don't know you yet..."
       redirect_to "/users/login"
     end
-  end
-
-private 
-
-  def set_current_user
-    if session[:user_id]
-      @current_user = User.find(session[:user_id])
   end
   
 end
