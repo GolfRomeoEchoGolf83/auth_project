@@ -1,2 +1,8 @@
-<h1>Welcome</h1>
-<a href="/users/login">Login</a>
+<% if @current_user %>
+    <h1>Welcome
+        <%= @current_user.name %>
+    </h1>
+    <% else %>
+        <h1>Welcome anonyme user...</h1>
+        <a href="/users/login">Login</a>
+        <% end %>
